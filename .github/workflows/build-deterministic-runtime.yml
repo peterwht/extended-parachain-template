@@ -88,9 +88,9 @@ jobs:
           body: |
             ## Runtime: `${{ matrix.runtime }}`
             ```
-            $(subwasm info ${{ steps.srtool_build.outputs.wasm_compressed }})
+            ${{subwasm info ${{ steps.srtool_build.outputs.wasm_compressed }}}}
             ```
           files: |
             ${{ steps.srtool_build.outputs.wasm_compressed }}
             ${{ matrix.runtime }}-srtool-digest.json
-            ${{ github.event.inputs.package }}-info
+            ${{ matrix.runtime }}-info
