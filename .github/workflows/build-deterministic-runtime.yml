@@ -60,9 +60,6 @@ jobs:
           subwasm --version
       - name: Show Runtime information
         run: |
-          echo "WASM_INFO<<$EOF" >> "$GITHUB_OUTPUT"
-          echo "$(subwasm info ${{ steps.srtool_build.outputs.wasm_compressed }})" >> "$GITHUB_OUTPUT"
-          echo "$EOF" >> "$GITHUB_OUTPUT"
           subwasm info ${{ steps.srtool_build.outputs.wasm }}
           subwasm info ${{ steps.srtool_build.outputs.wasm_compressed }}
           subwasm --json info ${{ steps.srtool_build.outputs.wasm }} > ${{ github.event.inputs.package }}-info.json
@@ -91,7 +88,13 @@ jobs:
           body: |
             ## Runtime: `${{ matrix.runtime }}`
             ```
-            ${{env.WASM_INFO}}
+            🏋️ Runtime Size:           ${{ fromJSON(steps.srtool_build.outputs.json).runtimes.compressed.subwasm.size }} bytes
+            🔥 Core Version:           ${{ fromJSON(steps.srtool_build.outputs.json).runtimes.compressed.subwasm.core_version.specName }}-${{ fromJSON(steps.srtool_build.outputs.json).runtimes.compressed.subwasm.core_version.specVersion }}
+            🎁 Metadata version:       V${{ fromJSON(steps.srtool_build.outputs.json).runtimes.compressed.subwasm.metadata_version }}
+            🗳️ system.setCode hash:    ${{ fromJSON(steps.srtool_build.outputs.json).runtimes.compressed.subwasm.proposal_hash }}
+            🗳️ authorizeUpgrade hash:  ${{ fromJSON(steps.srtool_build.outputs.json).runtimes.compressed.subwasm.parachain_authorize_upgrade_hash }}
+            🗳️ Blake2-256 hash:        ${{ fromJSON(steps.srtool_build.outputs.json).runtimes.compressed.subwasm.blake2_256 }}
+            📦 IPFS:                   ${{ fromJSON(steps.srtool_build.outputs.json).runtimes.compressed.subwasm.ipfs_hash }}
             ```
           files: |
             ${{ steps.srtool_build.outputs.wasm_compressed }}
