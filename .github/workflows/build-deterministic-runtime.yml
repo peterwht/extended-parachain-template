@@ -60,7 +60,9 @@ jobs:
           subwasm --version
       - name: Show Runtime information
         run: |
-          echo "WASM_INFO=$(subwasm info ${{ steps.srtool_build.outputs.wasm_compressed }})" >> "$GITHUB_OUTPUT"
+          echo "WASM_INFO<<$EOF" >> "$GITHUB_OUTPUT"
+          echo "$(subwasm info ${{ steps.srtool_build.outputs.wasm_compressed }})" >> "$GITHUB_OUTPUT"
+          echo "$EOF" >> "$GITHUB_OUTPUT"
           subwasm info ${{ steps.srtool_build.outputs.wasm }}
           subwasm info ${{ steps.srtool_build.outputs.wasm_compressed }}
           subwasm --json info ${{ steps.srtool_build.outputs.wasm }} > ${{ github.event.inputs.package }}-info.json
