@@ -83,8 +83,11 @@ jobs:
         with:
           append_body: true
           body: |
+            ## Runtime
+            ```
             subwasm info ${{ steps.srtool_build.outputs.wasm }}
             subwasm info ${{ steps.srtool_build.outputs.wasm_compressed }}
+            ```
           files: |
             ${{ steps.srtool_build.outputs.wasm_compressed }}
             ${{ matrix.runtime }}-srtool-digest.json
