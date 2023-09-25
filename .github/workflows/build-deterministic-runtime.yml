@@ -60,9 +60,8 @@ jobs:
           subwasm --version
       - name: Show Runtime information
         run: |
-          subwasm info ${{ steps.srtool_build.outputs.wasm
-          echo "WASM_COMPRESSED=$(subwasm info ${{ steps.srtool_build.outputs.wasm_compressed }})" >> $GITHUB_ENV
-          echo "${{env.WASM_COMPRESSED}}"
+          subwasm info ${{ steps.srtool_build.outputs.wasm }}
+          subwasm info ${{ steps.srtool_build.outputs.wasm_compressed }}
           subwasm --json info ${{ steps.srtool_build.outputs.wasm }} > ${{ github.event.inputs.package }}-info.json
           subwasm --json info ${{ steps.srtool_build.outputs.wasm_compressed }} > ${{ github.event.inputs.package }}-info_compressed.json
       - name: Extract the metadata
@@ -89,7 +88,7 @@ jobs:
           body: |
             ## Runtime
             ```
-            ${{env.WASM_COMPRESSED}}
+            $(subwasm info ${{ steps.srtool_build.outputs.wasm_compressed }})
             ```
           files: |
             ${{ steps.srtool_build.outputs.wasm_compressed }}
