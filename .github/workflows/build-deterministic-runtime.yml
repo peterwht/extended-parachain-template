@@ -86,7 +86,7 @@ jobs:
         with:
           append_body: true
           body: |
-            ## Runtime
+            ## Runtime: `${{ matrix.runtime }}`
             ```
             $(subwasm info ${{ steps.srtool_build.outputs.wasm_compressed }})
             ```
