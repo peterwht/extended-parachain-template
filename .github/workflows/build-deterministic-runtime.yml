@@ -62,22 +62,22 @@ jobs:
         run: |
           subwasm info ${{ steps.srtool_build.outputs.wasm }}
           subwasm info ${{ steps.srtool_build.outputs.wasm_compressed }}
-          subwasm --json info ${{ steps.srtool_build.outputs.wasm }} > ${{ github.event.inputs.package }}-info.json
-          subwasm --json info ${{ steps.srtool_build.outputs.wasm_compressed }} > ${{ github.event.inputs.package }}-info_compressed.json
+          subwasm --json info ${{ steps.srtool_build.outputs.wasm }} > ${{ matrix.runtime }}-info.json
+          subwasm --json info ${{ steps.srtool_build.outputs.wasm_compressed }} > ${{ matrix.runtime }}-info_compressed.json
       - name: Extract the metadata
         run: |
           subwasm meta ${{ steps.srtool_build.outputs.wasm }}
-          subwasm --json meta ${{ steps.srtool_build.outputs.wasm }} > ${{ github.event.inputs.package }}-metadata.json
+          subwasm --json meta ${{ steps.srtool_build.outputs.wasm }} > ${{ matrix.runtime }}-metadata.json
 
       - name: Archive Subwasm results
         uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # v3.1.0
         with:
-          name: ${{ github.event.inputs.package }}-info
+          name: ${{ matrix.runtime }}-info
           path: |
-            ${{ github.event.inputs.package }}-info.json
-            ${{ github.event.inputs.package }}-info_compressed.json
-            ${{ github.event.inputs.package }}-metadata.json
-            ${{ github.event.inputs.package }}-diff.txt
+            ${{ matrix.runtime }}-info.json
+            ${{ matrix.runtime }}-info_compressed.json
+            ${{ matrix.runtime }}-metadata.json
+            ${{ matrix.runtime }}-diff.txt
 
       # Release published: add artifacts to release
       - name: Add artifacts to release
